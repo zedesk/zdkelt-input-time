@@ -23,7 +23,6 @@
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#^1.2.4",
-    "moment": "^2.11.2",
     "zdkelt-time-picker": "zedesk/zdkelt-time-picker#^1.0.0-rc1",
     "paper-icon-button": "PolymerElements/paper-icon-button#^1.0.6",
     "iron-dropdown": "PolymerElements/iron-dropdown#^1.2.0",
