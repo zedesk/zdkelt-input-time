@@ -28,18 +28,19 @@ Example:
 				@apply(--paper-font-body1);
 			}
 
-			.dropdown-content {
-				background: white;
-			}
-
 			.buttons {
 				text-align: right;
 			}
 
 			.dropdown-content {
+				background: white;
 				border: 1px solid lightgray;
 				margin-top: 35px;
 				@apply(--shadow-elevation-2dp);
+			}
+
+			iron-dropdown[vertical-align=bottom] .dropdown-content {
+				margin-top: 0px;
 			}
 
 			paper-icon-button {
@@ -121,7 +122,8 @@ Example:
 				 */
 				verticalAlign: {
 					type: String,
-					value: 'top'
+					value: 'top',
+					observer: '_alignVertical'
 				},
 				/**
 				 * The orientation against which to align the dropdown content horizontally
@@ -201,6 +203,10 @@ Example:
 
 			_refresh: function() {
 				this.$.picker.refresh();
+			},
+
+			_alignVertical: function() {
+
 			}
 		});
 	</script>
