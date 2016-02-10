@@ -5,10 +5,8 @@
 <link rel="import" href="../iron-dropdown/iron-dropdown.html">
 <link rel="import" href="../paper-input/paper-input.html">
 <link rel="import" href="../paper-styles/paper-styles.html">
-<!--<link rel="import" href="../paper-material/paper-material.html">-->
+<link rel="import" href="../neon-animation/animations/scale-up-animation.html">
 <link rel="import" href="../zdkelt-time-picker/zdkelt-time-picker.html">
-
-<script src="../moment/min/moment-with-locales.min.js"></script>
 
 <!--
 An input with time picker component
@@ -43,13 +41,25 @@ Example:
 				margin-top: 35px;
 				@apply(--shadow-elevation-2dp);
 			}
+
+			paper-icon-button {
+				width: 25px;
+				padding: 3px;
+			}
 		</style>
-		<div class="layout horizontal" id="inputTime">
-			<paper-input id="inputTime" label="[[label]]" class="flex" no-label-float="[[noLabelFloat]]" value="{{value}}">
+		<div class="layout horizontal">
+			<paper-input id="inputTime" class="flex"
+			        label="[[label]]"
+			        no-label-float="[[noLabelFloat]]"
+			        value="{{_displayValue}}">
 				<paper-icon-button suffix id="clear" disabled icon="clear" on-tap="_clear"></paper-icon-button>
 				<paper-icon-button suffix icon="schedule" on-tap="showTime"></paper-icon-button>
 			</paper-input>
-			<iron-dropdown id="dropdown" vertical-align="[[verticalAlign]]" horizontal-align="[[horizontalAlign]]" entryAnimation="scale-up-animation" on-iron-overlay-opened='_refresh'>
+			<iron-dropdown id="dropdown"
+			               vertical-align="[[verticalAlign]]"
+			               horizontal-align="[[horizontalAlign]]"
+			               entryAnimation="scale-up-animation"
+			               on-iron-overlay-opened='_refresh'>
 				<div class="dropdown-content">
 					<zdkelt-time-picker id="picker" on-change="_setNewValue"></zdkelt-time-picker>
 					<div class="buttons">
@@ -61,12 +71,6 @@ Example:
 	</template>
 	<script>
 		'use strict';
-
-		/* global moment */
-
-		function n2str(value, pad) {
-			return Array(Math.max(pad - String(value).length + 1, 0)).join(0) + value;
-		}
 
 		Polymer({
 			is: 'zdkelt-input-time',
@@ -88,7 +92,8 @@ Example:
 				 * The displayed time
 				 */
 				_displayValue: {
-					type: String
+					type: String,
+					observer: '_validValue'
 				},
 				/**
 				 * The field label
@@ -153,14 +158,26 @@ Example:
 
 			_valueChanged: function(newValue) {
 				if (newValue) {
-					if (moment(newValue,"HH:MM").isValid()) {
-						this.value = n2str(moment(newValue,"HH:MM").hours(), 2) + ':' + n2str(moment(newValue,"HH:MM").minutes(), 2);
+					if (/^([0-1][0-9]|2[0-3]):[0-5][0-9]$/.test(newValue)) {
+						this.value = newValue,"HH:MM";
 						this.$.picker.value = this.value;
+						this.$.inputTime.invalid = false;
+						this.invalid = false;
 					} else {
+						this.value = "";
 						this.$.inputTime.invalid = true;
 						this.invalid = true;
 					}
+					this._displayValue = newValue;
+					this.$.clear.disabled = false;
+				} else {
+					this.$.clear.disabled = true;
 				}
+			},
+
+			_validValue: function(tmp) {
+				//var tmp = evt.target.value;
+				this._valueChanged(tmp);
 			},
 
 			_setNewValue: function(evt) {
