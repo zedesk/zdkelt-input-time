@@ -1,0 +1,190 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../iron-dropdown/iron-dropdown.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../paper-styles/paper-styles.html">
+<!--<link rel="import" href="../paper-material/paper-material.html">-->
+<link rel="import" href="../zdkelt-time-picker/zdkelt-time-picker.html">
+
+<script src="../moment/min/moment-with-locales.min.js"></script>
+
+<!--
+An input with time picker component
+
+version : __1.0.0-rc1__
+
+Example:
+
+    <zdkelt-input-time value="17:00"></zdkelt-input-time>
+
+@group zdk Elements
+@demo
+-->
+<dom-module id="zdkelt-input-time">
+	<template>
+		<style>
+			:host {
+				display: inline-block;
+				@apply(--paper-font-body1);
+			}
+
+			.dropdown-content {
+				background: white;
+			}
+
+			.buttons {
+				text-align: right;
+			}
+
+			.dropdown-content {
+				border: 1px solid lightgray;
+				margin-top: 35px;
+				@apply(--shadow-elevation-2dp);
+			}
+		</style>
+		<div class="layout horizontal" id="inputTime">
+			<paper-input id="inputTime" label="[[label]]" class="flex" no-label-float="[[noLabelFloat]]" value="{{value}}">
+				<paper-icon-button suffix id="clear" disabled icon="clear" on-tap="_clear"></paper-icon-button>
+				<paper-icon-button suffix icon="schedule" on-tap="showTime"></paper-icon-button>
+			</paper-input>
+			<iron-dropdown id="dropdown" vertical-align="[[verticalAlign]]" horizontal-align="[[horizontalAlign]]" entryAnimation="scale-up-animation" on-iron-overlay-opened='_refresh'>
+				<div class="dropdown-content">
+					<zdkelt-time-picker id="picker" on-change="_setNewValue"></zdkelt-time-picker>
+					<div class="buttons">
+						<content></content>
+					</div>
+				</div>
+			</iron-dropdown>
+		</div>
+	</template>
+	<script>
+		'use strict';
+
+		/* global moment */
+
+		function n2str(value, pad) {
+			return Array(Math.max(pad - String(value).length + 1, 0)).join(0) + value;
+		}
+
+		Polymer({
+			is: 'zdkelt-input-time',
+
+			properties: {
+				/**
+				 * the value of the component
+				 *
+				 * the format of the value is "HH:MM"
+				 */
+				value: {
+					type: String,
+					value: null,
+					reflectToAttribute: true,
+					notify: true,
+					observer: '_valueChanged'
+				},
+				/**
+				 * The displayed time
+				 */
+				_displayValue: {
+					type: String
+				},
+				/**
+				 * The field label
+				 */
+				label: String,
+				/**
+				 *
+				 */
+				noLabelFloat: {
+					type: Boolean,
+					reflectToAttribute: true,
+					value: false
+				},
+				/**
+				 * indicate if the value is valid
+				 */
+				invalid: {
+					type: Boolean,
+					reflectToAttribute: true
+				},
+				/**
+				 * The orientation against which to align the dropdown content vertically
+				 * relative to the dropdown trigger.
+				 * acceptable value are "top" or "bottom"
+				 */
+				verticalAlign: {
+					type: String,
+					value: 'top'
+				},
+				/**
+				 * The orientation against which to align the dropdown content horizontally
+				 * relative to the dropdown trigger.
+				 * acceptable value are "left" or "right"
+				 */
+				horizontalAlign: {
+					type: String,
+					value: 'left'
+				}
+			},
+
+			listeners: {
+				'tap': '_onDialogClick'
+			},
+
+			_onDialogClick: function(event) {
+				var target = event.target;
+				while (target && target !== this) {
+					if (target.hasAttribute) {
+						if (target.hasAttribute('dropdown-dismiss')) {
+							this.$.dropdown.close();
+							break;
+						} else if (target.hasAttribute('dropdown-confirm')) {
+							this.value = this.$.picker.value;
+							this.$.dropdown.close();
+							this.fire('change', this.value);
+							break;
+						}
+					}
+					target = target.parentNode;
+				}
+			},
+
+			_valueChanged: function(newValue) {
+				if (newValue) {
+					if (moment(newValue,"HH:MM").isValid()) {
+						this.value = n2str(moment(newValue,"HH:MM").hours(), 2) + ':' + n2str(moment(newValue,"HH:MM").minutes(), 2);
+						this.$.picker.value = this.value;
+					} else {
+						this.$.inputTime.invalid = true;
+						this.invalid = true;
+					}
+				}
+			},
+
+			_setNewValue: function(evt) {
+				this._valueChanged(evt.detail);
+			},
+
+			/**
+			 * Reset the current value
+			 */
+			_clear: function() {
+				this.value = '';
+				this._displayValue = '';
+				this.$.clear.disabled = true;
+				this.$.inputTime.invalid = false;
+			},
+
+			showTime: function() {
+				this.$.dropdown.open();
+				this.$.picker.value = this.value;
+			},
+
+			_refresh: function() {
+				this.$.picker.refresh();
+			}
+		});
+	</script>
+</dom-module>
