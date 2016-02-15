@@ -11,7 +11,7 @@
 <!--
 An input with time picker component
 
-version : __1.0.0-rc1__
+version : __1.0.0-rc2__
 
 Example:
 
@@ -28,18 +28,19 @@ Example:
 				@apply(--paper-font-body1);
 			}
 
-			.dropdown-content {
-				background: white;
-			}
-
 			.buttons {
 				text-align: right;
 			}
 
 			.dropdown-content {
+				background: white;
 				border: 1px solid lightgray;
 				margin-top: 35px;
 				@apply(--shadow-elevation-2dp);
+			}
+
+			iron-dropdown[vertical-align=bottom] .dropdown-content {
+				margin-top: 0px;
 			}
 
 			paper-icon-button {
@@ -48,13 +49,6 @@ Example:
 			}
 		</style>
 		<div class="layout horizontal">
-			<paper-input id="inputTime" class="flex"
-			        label="[[label]]"
-			        no-label-float="[[noLabelFloat]]"
-			        value="{{_displayValue}}">
-				<paper-icon-button suffix id="clear" disabled icon="clear" on-tap="_clear"></paper-icon-button>
-				<paper-icon-button suffix icon="schedule" on-tap="_showTime"></paper-icon-button>
-			</paper-input>
 			<iron-dropdown id="dropdown"
 			               vertical-align="[[verticalAlign]]"
 			               horizontal-align="[[horizontalAlign]]"
@@ -67,6 +61,13 @@ Example:
 					</div>
 				</div>
 			</iron-dropdown>
+			<paper-input id="inputTime" class="flex"
+			        label="[[label]]"
+			        no-label-float="[[noLabelFloat]]"
+			        value="{{_displayValue}}">
+				<paper-icon-button suffix id="clear" disabled icon="clear" on-tap="_clear"></paper-icon-button>
+				<paper-icon-button suffix icon="schedule" on-tap="_showTime"></paper-icon-button>
+			</paper-input>
 		</div>
 	</template>
 	<script>
@@ -121,7 +122,8 @@ Example:
 				 */
 				verticalAlign: {
 					type: String,
-					value: 'top'
+					value: 'top',
+					observer: '_alignVertical'
 				},
 				/**
 				 * The orientation against which to align the dropdown content horizontally
@@ -165,12 +167,14 @@ Example:
 						this.invalid = false;
 					} else {
 						this.value = "";
+						this.$.picker.value = "00:00";
 						this.$.inputTime.invalid = true;
 						this.invalid = true;
 					}
 					this._displayValue = newValue;
 					this.$.clear.disabled = false;
 				} else {
+					this.$.picker.value = "00:00";
 					this.$.clear.disabled = true;
 				}
 			},
@@ -197,10 +201,15 @@ Example:
 			_showTime: function() {
 				this.$.dropdown.open();
 				this.$.picker.value = this.value;
+				this.$.picker.setView("hours");
 			},
 
 			_refresh: function() {
 				this.$.picker.refresh();
+			},
+
+			_alignVertical: function() {
+
 			}
 		});
 	</script>
