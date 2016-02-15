@@ -167,12 +167,14 @@ Example:
 						this.invalid = false;
 					} else {
 						this.value = "";
+						this.$.picker.value = "00:00";
 						this.$.inputTime.invalid = true;
 						this.invalid = true;
 					}
 					this._displayValue = newValue;
 					this.$.clear.disabled = false;
 				} else {
+					this.$.picker.value = "00:00";
 					this.$.clear.disabled = true;
 				}
 			},
