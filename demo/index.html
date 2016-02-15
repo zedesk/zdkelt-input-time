@@ -9,7 +9,7 @@
     <link rel="import" href="../../paper-styles/paper-styles.html">
     <link rel="import" href="../zdkelt-input-time.html">
 
-    <style>
+    <style is="custom-style">
         body {
             font-family: Roboto, Verdana, Arial;
         }
@@ -19,20 +19,42 @@
             bottom: 10px;
             right: 20px
         }
+
+        :root {
+            --paper-input-container-invalid-color: crimson;
+        }
     </style>
 </head>
 
 <body>
-    <div>
-        <zdkelt-input-time label="select time"></zdkelt-input-time>
-    </div>
-    <div>
-        <zdkelt-input-time label="default value" value="17:00"></zdkelt-input-time>
-    </div>
-    <div>
-        <zdkelt-input-time label="bad value" value="aa:00"></zdkelt-input-time>
-    </div>
-    <div>
-        <zdkelt-input-time label="display up" vertical-align="bottom"></zdkelt-input-time>
+    <div class="layout horizontal">
+        <div style="margin:10px">
+            <div>
+                <zdkelt-input-time label="select time"></zdkelt-input-time>
+            </div>
+            <div>
+                <zdkelt-input-time label="default value" value="17:00"></zdkelt-input-time>
+            </div>
+            <div>
+                <zdkelt-input-time label="bad value" value="aa:00"></zdkelt-input-time>
+            </div>
+            <div>
+                <zdkelt-input-time label="display up" vertical-align="bottom"></zdkelt-input-time>
+            </div>
+        </div>
+        <div style="margin:10px">
+            <div>
+                <zdkelt-input-time hour12 label="select time"></zdkelt-input-time>
+            </div>
+            <div>
+                <zdkelt-input-time hour12 label="default value" value="17:00"></zdkelt-input-time>
+            </div>
+            <div>
+                <zdkelt-input-time hour12 label="bad value" value="aa:00"></zdkelt-input-time>
+            </div>
+            <div>
+                <zdkelt-input-time hour12 label="display up" vertical-align="bottom"></zdkelt-input-time>
+            </div>
+        </div>
     </div>
 </body>
