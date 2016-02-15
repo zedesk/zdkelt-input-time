@@ -55,7 +55,7 @@ Example:
 			               entryAnimation="scale-up-animation"
 			               on-iron-overlay-opened='_refresh'>
 				<div class="dropdown-content">
-					<zdkelt-time-picker id="picker" on-change="_setNewValue"></zdkelt-time-picker>
+					<zdkelt-time-picker id="picker" hour12="[[hour12]]" on-change="_setNewValue"></zdkelt-time-picker>
 					<div class="buttons">
 						<content></content>
 					</div>
@@ -133,6 +133,11 @@ Example:
 				horizontalAlign: {
 					type: String,
 					value: 'left'
+				},
+
+				hour12: {
+					type: Boolean,
+					value: false
 				}
 			},
 
