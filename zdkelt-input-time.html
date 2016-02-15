@@ -49,13 +49,6 @@ Example:
 			}
 		</style>
 		<div class="layout horizontal">
-			<paper-input id="inputTime" class="flex"
-			        label="[[label]]"
-			        no-label-float="[[noLabelFloat]]"
-			        value="{{_displayValue}}">
-				<paper-icon-button suffix id="clear" disabled icon="clear" on-tap="_clear"></paper-icon-button>
-				<paper-icon-button suffix icon="schedule" on-tap="_showTime"></paper-icon-button>
-			</paper-input>
 			<iron-dropdown id="dropdown"
 			               vertical-align="[[verticalAlign]]"
 			               horizontal-align="[[horizontalAlign]]"
@@ -68,6 +61,13 @@ Example:
 					</div>
 				</div>
 			</iron-dropdown>
+			<paper-input id="inputTime" class="flex"
+			        label="[[label]]"
+			        no-label-float="[[noLabelFloat]]"
+			        value="{{_displayValue}}">
+				<paper-icon-button suffix id="clear" disabled icon="clear" on-tap="_clear"></paper-icon-button>
+				<paper-icon-button suffix icon="schedule" on-tap="_showTime"></paper-icon-button>
+			</paper-input>
 		</div>
 	</template>
 	<script>
