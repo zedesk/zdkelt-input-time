@@ -11,11 +11,17 @@
 <!--
 An input with time picker component
 
-version : __1.0.0-rc2__
+version : __2.0.0-pre__
 
 Example:
 
     <zdkelt-input-time value="17:00"></zdkelt-input-time>
+
+The component has been tested on :
+
+ - chrome 47 ( desktop & tablet )
+ - firefox 44
+ - ipad2
 
 @group zdk Elements
 @demo
@@ -64,7 +70,8 @@ Example:
 			<paper-input id="inputTime" class="flex"
 			        label="[[label]]"
 			        no-label-float="[[noLabelFloat]]"
-			        value="{{_displayValue}}">
+			        value="{{_displayValue}}"
+					invalid="{{invalid}}">
 				<paper-icon-button suffix id="clear" disabled icon="clear" on-tap="_clear"></paper-icon-button>
 				<paper-icon-button suffix icon="schedule" on-tap="_showTime"></paper-icon-button>
 			</paper-input>
@@ -201,7 +208,7 @@ Example:
 			_showTime: function() {
 				this.$.dropdown.open();
 				this.$.picker.value = this.value;
-				this.$.picker.setView("hours");
+				this.$.picker.refresh();
 			},
 
 			_refresh: function() {
