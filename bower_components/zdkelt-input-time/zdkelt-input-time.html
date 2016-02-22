@@ -1,0 +1,223 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../iron-dropdown/iron-dropdown.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../paper-styles/paper-styles.html">
+<link rel="import" href="../neon-animation/animations/scale-up-animation.html">
+<link rel="import" href="../zdkelt-time-picker/zdkelt-time-picker.html">
+
+<!--
+An input with time picker component
+
+version : __2.0.0__
+
+Example:
+
+    <zdkelt-input-time value="17:00"></zdkelt-input-time>
+
+The component has been tested on :
+
+ - chrome 47 ( desktop & tablet )
+ - firefox 44
+ - ipad2
+
+@group zdk Elements
+@demo
+-->
+<dom-module id="zdkelt-input-time">
+	<template>
+		<style>
+			:host {
+				display: inline-block;
+				@apply(--paper-font-body1);
+			}
+
+			.buttons {
+				text-align: right;
+			}
+
+			.dropdown-content {
+				background: white;
+				border: 1px solid lightgray;
+				margin-top: 35px;
+				@apply(--shadow-elevation-2dp);
+			}
+
+			iron-dropdown[vertical-align=bottom] .dropdown-content {
+				margin-top: 0px;
+			}
+
+			paper-icon-button {
+				width: 25px;
+				padding: 3px;
+			}
+		</style>
+		<div class="layout horizontal">
+			<iron-dropdown id="dropdown"
+			               vertical-align="[[verticalAlign]]"
+			               horizontal-align="[[horizontalAlign]]"
+			               entryAnimation="scale-up-animation"
+			               on-iron-overlay-opened='_refresh'>
+				<div class="dropdown-content">
+					<zdkelt-time-picker id="picker" on-change="_setNewValue"></zdkelt-time-picker>
+					<div class="buttons">
+						<content></content>
+					</div>
+				</div>
+			</iron-dropdown>
+			<paper-input id="inputTime" class="flex"
+			        label="[[label]]"
+			        no-label-float="[[noLabelFloat]]"
+			        value="{{_displayValue}}"
+					invalid="{{invalid}}">
+				<paper-icon-button suffix id="clear" disabled icon="clear" on-tap="_clear"></paper-icon-button>
+				<paper-icon-button suffix icon="schedule" on-tap="_showTime"></paper-icon-button>
+			</paper-input>
+		</div>
+	</template>
+	<script>
+		'use strict';
+
+		Polymer({
+			is: 'zdkelt-input-time',
+
+			properties: {
+				/**
+				 * the value of the component
+				 *
+				 * the format of the value is "HH:MM"
+				 */
+				value: {
+					type: String,
+					value: null,
+					reflectToAttribute: true,
+					notify: true,
+					observer: '_valueChanged'
+				},
+				/**
+				 * The displayed time
+				 */
+				_displayValue: {
+					type: String,
+					observer: '_validValue'
+				},
+				/**
+				 * The field label
+				 */
+				label: String,
+				/**
+				 *
+				 */
+				noLabelFloat: {
+					type: Boolean,
+					reflectToAttribute: true,
+					value: false
+				},
+				/**
+				 * indicate if the value is valid
+				 */
+				invalid: {
+					type: Boolean,
+					reflectToAttribute: true
+				},
+				/**
+				 * The orientation against which to align the dropdown content vertically
+				 * relative to the dropdown trigger.
+				 * acceptable value are "top" or "bottom"
+				 */
+				verticalAlign: {
+					type: String,
+					value: 'top',
+					observer: '_alignVertical'
+				},
+				/**
+				 * The orientation against which to align the dropdown content horizontally
+				 * relative to the dropdown trigger.
+				 * acceptable value are "left" or "right"
+				 */
+				horizontalAlign: {
+					type: String,
+					value: 'left'
+				}
+			},
+
+			listeners: {
+				'tap': '_onDialogClick'
+			},
+
+			_onDialogClick: function(event) {
+				var target = event.target;
+				while (target && target !== this) {
+					if (target.hasAttribute) {
+						if (target.hasAttribute('dropdown-dismiss')) {
+							this.$.dropdown.close();
+							break;
+						} else if (target.hasAttribute('dropdown-confirm')) {
+							this.value = this.$.picker.value;
+							this.$.dropdown.close();
+							this.fire('change', this.value);
+							break;
+						}
+					}
+					target = target.parentNode;
+				}
+			},
+
+			_valueChanged: function(newValue) {
+				if (newValue) {
+					if (/^([0-1][0-9]|2[0-3]):[0-5][0-9]$/.test(newValue)) {
+						this.value = newValue,"HH:MM";
+						this.$.picker.value = this.value;
+						this.$.inputTime.invalid = false;
+						this.invalid = false;
+					} else {
+						this.value = "";
+						this.$.picker.value = "00:00";
+						this.$.inputTime.invalid = true;
+						this.invalid = true;
+					}
+					this._displayValue = newValue;
+					this.$.clear.disabled = false;
+				} else {
+					this.$.picker.value = "00:00";
+					this.$.clear.disabled = true;
+				}
+			},
+
+			_validValue: function(tmp) {
+				//var tmp = evt.target.value;
+				this._valueChanged(tmp);
+			},
+
+			_setNewValue: function(evt) {
+				this._valueChanged(evt.detail);
+			},
+
+			/**
+			 * Reset the current value
+			 */
+			_clear: function() {
+				this.value = '';
+				this._displayValue = '';
+				this.$.clear.disabled = true;
+				this.$.inputTime.invalid = false;
+			},
+
+			_showTime: function() {
+				this.$.dropdown.open();
+				this.$.picker.value = this.value;
+				this.$.picker.refresh();
+			},
+
+			_refresh: function() {
+				this.$.picker.refresh();
+			},
+
+			_alignVertical: function() {
+
+			}
+		});
+	</script>
+</dom-module>

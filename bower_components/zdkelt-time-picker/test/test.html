@@ -1,0 +1,159 @@
+<!doctype html>
+<html>
+
+<head>
+	<title>zdkelt-input-time tests</title>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+
+	<script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+	<script src="../../web-component-tester/browser.js"></script>
+	<script src="../../test-fixture/test-fixture-mocha.js"></script>
+
+	<link rel="import" href="../../test-fixture/test-fixture.html">
+	<link rel="import" href="../zdkelt-time-picker.html">
+
+</head>
+
+<body>
+
+<test-fixture id="basic">
+	<template>
+		<zdkelt-time-picker></zdkelt-time-picker>
+	</template>
+</test-fixture>
+
+<script>
+	var picker, clock;
+
+	function toggleView() {
+		return new Promise(function (done) {
+			picker._toggleView();
+			setTimeout(function () {
+				done();
+			});
+		});
+	}
+
+	function setValueAttribute(value) {
+		return new Promise(function (resolve) {
+			picker.setAttribute('value', value);
+			Polymer.dom.flush(picker);
+			setTimeout(function () {
+				resolve();
+			});
+		});
+	}
+
+	describe('initialize', function () {
+
+		beforeEach(function (done) {
+			picker = fixture('basic');
+			clock = picker.querySelector('zdkelt-clock');
+			Polymer.dom.flush();
+			setTimeout(function () {
+				done();
+			});
+		});
+
+		it('by default value is 00:00', function (done) {
+			assert.equal(picker.value, '00:00');
+			setTimeout(function () {
+				var clock = picker.querySelector('zdkelt-clock');
+				// default view is hours
+				assert.equal(clock.minutes, false);
+				done();
+			})
+		});
+
+		it('set a default value', function (done) {
+			setValueAttribute('16:25')
+				.then(function () {
+					assert.equal(picker.value, '16:25');
+					var clock = picker.querySelector('zdkelt-clock');
+					assert.equal(clock.minutes, false);
+					assert.equal(clock.value, "16");
+					done();
+				})
+				.catch(function (err) {
+					throw err;
+				});
+		});
+
+		it('change the view (programmatically)', function (done) {
+			setValueAttribute('16:25')
+				.then(toggleView)
+				.then(function () {
+					assert.equal(clock.minutes, true);
+					assert.equal(clock.value, "25");
+					done();
+				})
+				.catch(function (err) {
+					done(err);
+				});
+
+		});
+
+		it('change the view by click on minutes', function (done) {
+			setValueAttribute('16:25')
+				.then(function () {
+					evt = new MouseEvent("click", {button: 0});
+					var btn = picker.querySelector("#minutes");
+					btn.dispatchEvent(evt);
+				})
+				.then(function () {
+					assert.equal(clock.minutes, true);
+					assert.equal(clock.value, "25");
+					done();
+				})
+				.catch(function (err) {
+					done(err);
+				});
+		});
+
+		it('change the view after setting hour ( by click )', function (done) {
+			var element = document.elementFromPoint(175, 120);
+			(function () {
+				return new Promise(function (resolve) {
+					var evt = new MouseEvent('mousedown', {
+						button: 0,
+						screenX: 175,
+						clientX: 175,
+						screenY: 120,
+						clientY: 120,
+						bubbles: true
+					});
+					element.dispatchEvent(evt);
+					setTimeout( function() { resolve(); });
+				});
+			})()
+				.then(function () {
+					var evt = new MouseEvent('mouseup', {
+						button: 0,
+						screenX: 175,
+						clientX: 175,
+						screenY: 120,
+						clientY: 120,
+						bubbles: true
+					});
+					picker.addEventListener('update', function (evt) {
+						assert.equal(evt.detail, '02:00');
+						assert.equal(picker.value, evt.detail);
+						assert.equal(clock.minutes, true);
+						done();
+					});
+					element.dispatchEvent(evt);
+				})
+				.catch(function (err) {
+					done(err);
+				});
+		})
+
+	});
+</script>
+</body>
+
+</html>

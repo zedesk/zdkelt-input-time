@@ -1,0 +1,42 @@
+{
+  "name": "zdkelt-time-picker",
+  "version": "2.0.0",
+  "description": "A time picker webcomponent",
+  "main": "zdk-time-picker.html",
+  "authors": [
+    "zeDesk <dev@zedesk.net>"
+  ],
+  "license": "https://github.com/zedesk/zdkElt-time-picker/LICENCE",
+  "keywords": [
+    "web-component",
+    "web-components",
+    "polymer",
+    "time",
+    "time-picker"
+  ],
+  "homepage": "https://github.com/zedesk/zdkelt-time-picker",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.2.4",
+    "paper-styles": "PolymerElements/paper-styles#^1.1.3",
+    "iron-flex-layout": "PolymerElements/iron-flex-layout#^1.2.2"
+  },
+  "devDependencies": {
+    "web-component-tester": "^4.2.0",
+    "iron-component-page": "PolymerElements/iron-component-page#^1.1.4",
+    "test-fixture": "PolymerElements/test-fixture#^1.1.0"
+  },
+  "_release": "2.0.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v2.0.0",
+    "commit": "8aee369bfbfc3e232082edf97b9a6fe815874799"
+  },
+  "_source": "git://github.com/zedesk/zdkelt-time-picker.git",
+  "_target": "^2.0.0",
+  "_originalSource": "zedesk/zdkelt-time-picker"
+}

@@ -1,0 +1,46 @@
+{
+  "name": "zdkelt-time-picker",
+  "version": "2.0.0-pre",
+  "description": "A time picker webcomponent",
+  "main": "zdk-time-picker.html",
+  "scripts": {
+    "test": "wct",
+    "clean": "rm -rf bower-components",
+    "postinstall": "bower install",
+    "start": "polyserve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zedesk/zdkelt-time-picker.git"
+  },
+  "author": [
+    "zeDesk <dev@zedesk.net>"
+  ],
+  "license": "https://github.com/zedesk/zdkElt-time-picker/LICENCE",
+  "keywords": [
+    "web-component",
+    "web-components",
+    "polymer",
+    "calendar",
+    "date-picker",
+    "date",
+    "input"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "bugs": {
+    "url": "https://github.com/zedesk/zdkelt-time-picker/issues"
+  },
+  "homepage": "https://github.com/zedesk/zdkelt-time-picker#readme",
+  "devDependencies": {
+    "bower": "^1.7.7",
+    "jscs": "^2.9.0",
+    "polybuild": "^1.1.0",
+    "polylint": "^2.9.0",
+    "polyserve": "^0.6.0",
+    "vulcanize": "^1.14.5"
+  }
+}

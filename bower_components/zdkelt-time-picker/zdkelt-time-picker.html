@@ -1,0 +1,101 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-styles/paper-styles.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="zdkelt-clock.html">
+
+<!--
+A time picker component
+
+version : __2.0.0__
+
+A time picker component 'à la' material design
+
+This is a complete rewrite of the version 1, that doesn't work on firefox.
+
+> __Warning__ component does not yet support the meridiem hours, and is based only on 24-hour clock.
+
+Example:
+
+    <zdkelt-time-picker value="17:00"></zdkelt-time-picker>
+
+![](hero-timer.png)
+
+> __Warning__ component does not yet support the meridiem hours, and is based only on 24-hour clock.
+
+@group zdk Elements
+@demo
+-->
+<dom-module id="zdkelt-time-picker">
+	<template>
+		<style>
+			:host {
+				position: relative;
+				display: block;
+				box-sizing: border-box;
+				width: 220px;
+				height: 270px;
+				overflow: hidden;
+				@apply(--layout-vertical);
+				@apply(--paper-font-body1);
+			}
+
+			.box {
+				@apply(--layout-vertical);
+				@apply(--layout-flex);
+			}
+
+			.hour {
+				font-size: 40px !important;
+				text-align: center;
+				line-height: 50px !important;
+				height: 50px;
+				background: var(--default-primary-color);
+				color: lightgray;
+				@apply(--layout-horizontal);
+			}
+
+			.selected {
+				color: white;
+			}
+
+			.container {
+				width: auto;
+				height: 230px;
+				margin: 10px;
+			}
+
+			div.spacer {
+				@apply(--layout-flex);
+			}
+
+			zdkelt-clock {
+				margin: 10px;
+			}
+
+			#meridiem {
+				font-size: 70%;
+				padding-left: 10px;
+				flex: 1;
+				text-align: left;
+			}
+		</style>
+		<div id="header" class="hour">
+			<div class="spacer"></div>
+			<div id="hours" class="selected" on-tap="_toggleView">{{hours}}</div>
+			<div>:</div>
+			<div id="minutes" on-tap="_toggleView">{{minutes}}</div>
+			<template is="dom-if" if="{{hour12}}">
+				<div id="meridiem">{{meridiem}}</div>
+			</template>
+			<template is="dom-if" if="{{!hour12}}">
+				<div class="spacer"></div>
+			</template>
+		</div>
+		<div class="box">
+			<zdkelt-clock id="clock" value="{{_value}}"
+			               on-change="_clockChange"
+			               on-update="_clockUpdate"></zdkelt-clock>
+		</div>
+	</template>
+	<script src="zdkelt-time-picker.js"></script>
+</dom-module>

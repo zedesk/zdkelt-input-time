@@ -1,0 +1,45 @@
+{
+  "name": "zdkelt-input-time",
+  "version": "2.0.0",
+  "description": "An input component with a time picker",
+  "main": "zdk-input-time.html",
+  "scripts": {
+    "test": "wct",
+    "clean": "rm -rf bower-components",
+    "postinstall": "bower install",
+    "start": "polyserve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zedesk/zdkelt-input-time.git"
+  },
+  "author": [
+    "zeDesk <dev@zedesk.net>"
+  ],
+  "license": "https://github.com/zedesk/zdkelt-input-time/LICENCE",
+  "keywords": [
+    "web-component",
+    "web-components",
+    "polymer",
+    "time",
+    "time-picker",
+    "input"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "bugs": {
+    "url": "https://github.com/zedesk/zdkelt-input-time/issues"
+  },
+  "homepage": "https://github.com/zedesk/zdkelt-input-time#readme",
+  "devDependencies": {
+    "bower": "^1.7.7",
+    "jscs": "^2.9.0",
+    "polybuild": "^1.1.0",
+    "polylint": "^2.9.0",
+    "polyserve": "^0.6.0",
+    "vulcanize": "^1.14.5"
+  }
+}
