@@ -1,6 +1,6 @@
 {
   "name": "zdkelt-input-time",
-  "version": "1.0.0-rc2",
+  "version": "2.0.0",
   "description": "An input time picker webcomponent",
   "main": "zdkelt-input-time.html",
   "authors": [
@@ -13,7 +13,9 @@
     "polymer",
     "time-picker",
     "time",
-    "input"
+    "input",
+    "demo",
+    "test"
   ],
   "homepage": "https://github.com/zedesk/zdkelt-input-time",
   "ignore": [
