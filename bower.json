@@ -1,6 +1,6 @@
 {
   "name": "zdkelt-input-time",
-  "version": "1.0.0-rc2",
+  "version": "2.0.0",
   "description": "An input time picker webcomponent",
   "main": "zdkelt-input-time.html",
   "authors": [
@@ -13,7 +13,9 @@
     "polymer",
     "time-picker",
     "time",
-    "input"
+    "input",
+    "demo",
+    "test"
   ],
   "homepage": "https://github.com/zedesk/zdkelt-input-time",
   "ignore": [
@@ -23,7 +25,7 @@
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#^1.2.4",
-    "zdkelt-time-picker": "zedesk/zdkelt-time-picker#^v1.0.0-rc5",
+    "zdkelt-time-picker": "zedesk/zdkelt-time-picker#^2.0.0",
     "paper-icon-button": "PolymerElements/paper-icon-button#^1.0.6",
     "iron-dropdown": "PolymerElements/iron-dropdown#^1.2.0",
     "paper-input": "PolymerElements/paper-input#^1.1.5",
@@ -32,6 +34,7 @@
   "devDependencies": {
     "web-component-tester": "^4.2.0",
     "iron-component-page": "PolymerElements/iron-component-page#^1.1.4",
-    "test-fixture": "PolymerElements/test-fixture#^1.1.0"
+    "test-fixture": "PolymerElements/test-fixture#^1.1.0",
+    "paper-dialog": "PolymerElements/paper-dialog#^1.0.4"
   }
 }
