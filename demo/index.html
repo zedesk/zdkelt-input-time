@@ -4,27 +4,27 @@
 <head>
 	<meta charset="utf-8">
 	<title>zdkelt-input-date demo page</title>
-	
+
 	<script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
 	<link rel="import" href="../../paper-styles/paper-styles.html">
 	<link rel="import" href="../../paper-dialog/paper-dialog.html">
 	<link rel="import" href="../zdkelt-input-time.html">
-	
+
 	<style is="custom-style">
 		body {
 			font-family: Roboto, Verdana, Arial;
 		}
-		
+
 		.absolute {
 			position: absolute;
 			bottom: 10px;
 			right: 20px
 		}
-		
+
 		:root {
 			--error-color: tomato;
 		}
-		
+
 		.primary {
 			background: var(--default-primary-color);
 			color:white;
@@ -52,7 +52,7 @@
 	</zdkelt-input-time>
 </div>
 <div>
-	<zdkelt-input-time label="bad value" value="aa:00">
+	<zdkelt-input-time label="bad value" value="aa:00" error-message="bad value">
 		<paper-button dropdown-dismiss>Cancel</paper-button>
 		<paper-button dropdown-confirm>Valid</paper-button>b
 	</zdkelt-input-time>
