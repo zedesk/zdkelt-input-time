@@ -70,7 +70,8 @@ The component has been tested on :
 			<paper-input id="inputTime" class="flex"
 			        label="[[label]]"
 			        no-label-float="[[noLabelFloat]]"
-			        value="{{_displayValue}}"
+			        value="{{_displayValue}}",
+					error-message="{{errorMessage}}",
 					invalid="{{invalid}}">
 				<paper-icon-button suffix id="clear" disabled icon="clear" on-tap="_clear"></paper-icon-button>
 				<paper-icon-button suffix icon="schedule" on-tap="_showTime"></paper-icon-button>
@@ -123,14 +124,20 @@ The component has been tested on :
 					reflectToAttribute: true
 				},
 				/**
+				 * The error message to display when the value is invalid
+				 */
+				errorMessage: {
+					type: String,
+					notify: true
+				},
+				/**
 				 * The orientation against which to align the dropdown content vertically
 				 * relative to the dropdown trigger.
 				 * acceptable value are "top" or "bottom"
 				 */
 				verticalAlign: {
 					type: String,
-					value: 'top',
-					observer: '_alignVertical'
+					value: 'top'
 				},
 				/**
 				 * The orientation against which to align the dropdown content horizontally
@@ -213,11 +220,8 @@ The component has been tested on :
 
 			_refresh: function() {
 				this.$.picker.refresh();
-			},
-
-			_alignVertical: function() {
-
 			}
+
 		});
 	</script>
 </dom-module>
